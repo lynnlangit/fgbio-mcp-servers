@@ -2,6 +2,8 @@
 
 An MCP (Model Context Protocol) server that provides access to fgbio BAM manipulation tools through Claude. This server enables you to sort and filter BAM files using fgbio's powerful bioinformatics utilities directly from Claude conversations.
 
+<img src="https://github.com/lynnlangit/fgbio-mcp-servers/blob/main/fgbio-bam-mcp/images/fgbio-mcp-server.png">
+
 ## Features
 
 ### Available Tools
