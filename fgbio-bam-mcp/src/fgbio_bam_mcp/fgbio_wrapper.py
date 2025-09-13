@@ -181,3 +181,68 @@ class FgbioWrapper:
             params["max_records_in_ram"] = max_records_in_ram
         
         return self.run_command("SortBam", params)
+    
+    def filter_bam(self, input_bam: str, output_bam: str, 
+                   rejects: Optional[str] = None,
+                   intervals: Optional[str] = None,
+                   remove_duplicates: bool = True,
+                   remove_unmapped_reads: bool = True,
+                   min_map_q: int = 1,
+                   remove_single_end_mappings: bool = False,
+                   remove_secondary_alignments: bool = True,
+                   min_insert_size: Optional[int] = None,
+                   max_insert_size: Optional[int] = None,
+                   min_mapped_bases: Optional[int] = None) -> Dict[str, Any]:
+        """Filter a BAM file using fgbio FilterBam.
+        
+        Args:
+            input_bam: Path to input BAM file
+            output_bam: Path to output BAM file
+            rejects: Optional output file for rejected reads
+            intervals: Optional intervals file to filter by
+            remove_duplicates: Remove reads marked as duplicates
+            remove_unmapped_reads: Remove unmapped reads
+            min_map_q: Minimum mapping quality
+            remove_single_end_mappings: Remove non-PE reads and reads with unmapped mates
+            remove_secondary_alignments: Remove secondary alignments
+            min_insert_size: Minimum insert size
+            max_insert_size: Maximum insert size
+            min_mapped_bases: Minimum number of mapped bases
+            
+        Returns:
+            Dictionary containing execution results
+        """
+        # Validate input file exists
+        self._validate_file_path(input_bam, must_exist=True)
+        
+        # Validate output path is writable
+        self._validate_file_path(output_bam, must_exist=False)
+        
+        # Validate optional files
+        if rejects:
+            self._validate_file_path(rejects, must_exist=False)
+        if intervals:
+            self._validate_file_path(intervals, must_exist=True)
+        
+        params = {
+            "input": input_bam,
+            "output": output_bam,
+            "remove_duplicates": remove_duplicates,
+            "remove_unmapped_reads": remove_unmapped_reads,
+            "min_map_q": min_map_q,
+            "remove_single_end_mappings": remove_single_end_mappings,
+            "remove_secondary_alignments": remove_secondary_alignments
+        }
+        
+        if rejects:
+            params["rejects"] = rejects
+        if intervals:
+            params["intervals"] = intervals
+        if min_insert_size is not None:
+            params["min_insert_size"] = min_insert_size
+        if max_insert_size is not None:
+            params["max_insert_size"] = max_insert_size
+        if min_mapped_bases is not None:
+            params["min_mapped_bases"] = min_mapped_bases
+        
+        return self.run_command("FilterBam", params)
