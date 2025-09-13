@@ -1,3 +1,3 @@
-# FGBIO Tools w/ MCP Servers
+# fgbio Tools w/ MCP Servers
 
-Wrapper Repo for FGBio tools (tools at https://github.com/fulcrumgenomics/fgbio).
+Wrapper Repo for fgbio tools (tools at https://github.com/fulcrumgenomics/fgbio).
